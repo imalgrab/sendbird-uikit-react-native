@@ -2,6 +2,7 @@ import type * as RNImageResizer from '@bam.tech/react-native-image-resizer';
 import React from 'react';
 import type * as RNCreateThumbnail from 'react-native-create-thumbnail';
 import type RNVideo from 'react-native-video';
+import type { ReactVideoProps } from 'react-native-video';
 
 import { getDownscaleSize, getFileExtension, hash } from '@sendbird/uikit-utils';
 
@@ -12,18 +13,21 @@ type Modules = {
   VideoComponent: typeof RNVideo;
   thumbnailModule: typeof RNCreateThumbnail;
   imageResizerModule: typeof RNImageResizer;
+  videoProps?: ReactVideoProps;
 };
 
 const createNativeMediaService = ({
   VideoComponent,
   thumbnailModule,
   imageResizerModule,
+  videoProps,
 }: Modules): MediaServiceInterface => {
   return {
     VideoComponent({ source, resizeMode, onLoad, ...props }) {
       return (
         <VideoComponent
           {...props}
+          {...videoProps}
           source={source as { uri: string }}
           resizeMode={resizeMode}
           onLoad={onLoad}
